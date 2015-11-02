@@ -55,7 +55,9 @@ values."
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
-   dotspacemacs-delete-orphan-packages t))
+   dotspacemacs-delete-orphan-packages t
+   ;; https://www.reddit.com/r/emacs/comments/3qe2n3/how_to_move_spacemacs_hint_panel_to_vertica
+   dotspacemacs-which-key-position 'right-then-bottom))
 
 (defun dotspacemacs/init ()
   "Initialization function.
@@ -88,49 +90,49 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(anti-zenburn
-                         spacemacs-light
-                         spacemacs-dark
+			 spacemacs-light
+			 spacemacs-dark
                          solarized-light
                          solarized-dark
                          leuven
                          monokai
                          zenburn)
-   ;; If non nil the cursor color matches the state color.
+   ;; if non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
-   ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
+   ;; default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("source code pro"
                                :size 13
                                :weight normal
                                :width normal
                                ;; :powerline-scale 1.1
                                )
-   ;; The leader key
+   ;; the leader key
    dotspacemacs-leader-key "SPC"
-   ;; The leader key accessible in `emacs state' and `insert state'
-   ;; (default "M-m")
+   ;; the leader key accessible in `emacs state' and `insert state'
+   ;; (default "m-m")
    dotspacemacs-emacs-leader-key "M-m"
-   ;; Major mode leader key is a shortcut key which is the equivalent of
-   ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
+   ;; major mode leader key is a shortcut key which is the equivalent of
+   ;; pressing `<leader> m`. set it to `nil` to disable it. (default ",")
    dotspacemacs-major-mode-leader-key ","
-   ;; Major mode leader key accessible in `emacs state' and `insert state'.
+   ;; major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m)
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
-   ;; The command key used for Evil commands (ex-commands) and
-   ;; Emacs commands (M-x).
-   ;; By default the command key is `:' so ex-commands are executed like in Vim
-   ;; with `:' and Emacs commands are executed with `<leader> :'.
+   ;; the command key used for evil commands (ex-commands) and
+   ;; emacs commands (m-x).
+   ;; by default the command key is `:' so ex-commands are executed like in vim
+   ;; with `:' and emacs commands are executed with `<leader> :'.
    dotspacemacs-command-key ":"
-   ;; Location where to auto-save files. Possible values are `original' to
+   ;; location where to auto-save files. possible values are `original' to
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; (default 'cache)
    dotspacemacs-auto-save-file-location 'cache
-   ;; If non nil then `ido' replaces `helm' for some commands. For now only
-   ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
-   ;; `find-contrib-file' (SPC f e c) are replaced. (default nil)
+   ;; if non nil then `ido' replaces `helm' for some commands. for now only
+   ;; `find-files' (spc f f), `find-spacemacs-file' (spc f e s), and
+   ;; `find-contrib-file' (spc f e c) are replaced. (default nil)
    dotspacemacs-use-ido nil
-   ;; If non nil, `helm' will try to miminimize the space it uses. (default nil)
+   ;; if non nil, `helm' will try to miminimize the space it uses. (default nil)
    dotspacemacs-helm-resize nil
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
@@ -138,82 +140,82 @@ values."
    ;; define the position to display `helm', options are `bottom', `top',
    ;; `left', or `right'. (default 'bottom)
    dotspacemacs-helm-position 'bottom
-   ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
+   ;; if non nil the paste micro-state is enabled. when enabled pressing `p`
    ;; several times cycle between the kill ring content. (default nil)
    dotspacemacs-enable-paste-micro-state nil
-   ;; Which-key delay in seconds. The which-key buffer is the popup listing
+   ;; which-key delay in seconds. the which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
    dotspacemacs-which-key-delay 0.2
-   ;; Which-key frame position. Possible values are `right', `bottom' and
+   ;; which-key frame position. possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
    ;; (default 'bottom)
    dotspacemacs-which-key-position 'bottom
-   ;; If non nil a progress bar is displayed when spacemacs is loading. This
+   ;; if non nil a progress bar is displayed when spacemacs is loading. this
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
    dotspacemacs-loading-progress-bar t
-   ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
-   ;; (Emacs 24.4+ only)
+   ;; if non nil the frame is fullscreen when emacs starts up. (default nil)
+   ;; (emacs 24.4+ only)
    dotspacemacs-fullscreen-at-startup nil
-   ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
-   ;; Use to disable fullscreen animations in OSX. (default nil)
+   ;; if non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
+   ;; use to disable fullscreen animations in osx. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
-   ;; If non nil the frame is maximized when Emacs starts up.
-   ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
-   ;; (default nil) (Emacs 24.4+ only)
+   ;; if non nil the frame is maximized when emacs starts up.
+   ;; takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
+   ;; (default nil) (emacs 24.4+ only)
    dotspacemacs-maximized-at-startup nil
-   ;; A value from the range (0..100), in increasing opacity, which describes
+   ;; a value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
-   ;; Transparency can be toggled through `toggle-transparency'. (default 90)
+   ;; transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-active-transparency 90
-   ;; A value from the range (0..100), in increasing opacity, which describes
+   ;; a value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
-   ;; Transparency can be toggled through `toggle-transparency'. (default 90)
+   ;; transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
-   ;; If non nil unicode symbols are displayed in the mode line. (default t)
+   ;; if non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols nil
-   ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
-   ;; scrolling overrides the default behavior of Emacs which recenters the
+   ;; if non nil smooth scrolling (native-scrolling) is enabled. smooth
+   ;; scrolling overrides the default behavior of emacs which recenters the
    ;; point when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
-   ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
+   ;; if non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode t
-   ;; Select a scope to highlight delimiters. Possible values are `any',
-   ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
+   ;; select a scope to highlight delimiters. possible values are `any',
+   ;; `current', `all' or `nil'. default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
    dotspacemacs-highlight-delimiters 'all
-   ;; IF non nil advises quit functions to keep server open when quitting.
+   ;; if non nil advises quit functions to keep server open when quitting.
    ;; (default nil)
    dotspacemacs-persistent-server nil
-   ;; List of search tool executable names. Spacemacs uses the first installed
-   ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
+   ;; list of search tool executable names. spacemacs uses the first installed
+   ;; tool of the list. supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
    dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
-   ;; The default package repository used if no explicit repository has been
+   ;; the default package repository used if no explicit repository has been
    ;; specified with an installed package.
-   ;; Not used for now. (default nil)
+   ;; not used for now. (default nil)
    dotspacemacs-default-package-repository nil
    ))
 
 (defun dotspacemacs/user-init ()
-  "Initialization function for user code.
-It is called immediately after `dotspacemacs/init'.  You are free to put any
+  "initialization function for user code.
+it is called immediately after `dotspacemacs/init'.  you are free to put any
 user code."
 
 
   )
 
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code.
- This function is called at the very end of Spacemacs initialization after
-layers configuration. You are free to put any user code."
+  "configuration function for user code.
+ this function is called at the very end of spacemacs initialization after
+layers configuration. you are free to put any user code."
 
   (spacemacs/toggle-hybrid-mode-on)
 
 
-  (set-fontset-font "fontset-default" '(#x5d0 . #x5ff) "Miriam Mono CLM:bold")
+  (set-fontset-font "fontset-default" '(#x5d0 . #x5ff) "miriam mono clm:bold")
 
 
   (defun connect-11111 ()
@@ -240,7 +242,7 @@ layers configuration. You are free to put any user code."
   (global-set-key (kbd "M-k") 'reverse-other-window) 
 
 
-;;;;;;;; BIDI
+;;;;;;;; bidi
   (defun bidi ()
     (interactive)
     (setq bidi-display-reordering t)
@@ -263,7 +265,7 @@ layers configuration. You are free to put any user code."
     )
 ;;;;;;;;
 
-  (setq evil-hybrid-state-cursor '("SkyBlue2" box))
+  (setq evil-hybrid-state-cursor '("skyblue2" box))
   
   (defun cider-repl-prettify ()
     (interactive)
@@ -285,8 +287,19 @@ layers configuration. You are free to put any user code."
   (global-set-key (kbd "C-c i") 'iedit-mode)
   (global-set-key (kbd "C-c b") 'browse-url)
 
-  (global-set-key (kbd "C-0") 'sp-forward-slurp-sexp)
-  (global-set-key (kbd "C--") 'sp-splice-sexp)
+  (global-set-key (kbd "C-c 0") 'sp-forward-slurp-sexp)
+  ;; (global-set-key (kbd "C-0") 'sp-forward-slurp-sexp)
+  (global-set-key (kbd "C-c -") 'sp-splice-sexp)
+  ;; (global-set-key (kbd "C--") 'sp-splice-sexp)
+  (global-set-key (kbd "C-c =") 'imenu)
+
+  (defun cider-eval-up ()
+    (interactive)
+    (progn (backward-up-list)
+           (forward-sexp)
+           (cider-eval-last-sexp)))
+
+  (global-set-key (kbd "M-C-z") 'cider-eval-up)
 
 ;;;;;;;; 
   (setq dired-recursive-copies (quote always))
@@ -334,25 +347,26 @@ layers configuration. You are free to put any user code."
 
 )
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(cider-prompt-for-project-on-connect nil)
- '(cider-prompt-for-symbol nil)
- '(cider-prompt-save-file-on-load nil)
- '(cider-repl-display-in-current-window t)
- '(cider-repl-pop-to-buffer-on-connect t)
- '(cider-repl-use-clojure-font-lock t)
- '(cider-show-error-buffer (quote except-in-repl)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "#232333" :background "#c0c0c0"))))
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+;; ;; Do not write anything past this comment. This is where Emacs will
+;; ;; auto-generate custom variable definitions.
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(browse-url-browser-function (quote browse-url-chromium))
+;;  '(cider-prompt-for-project-on-connect nil)
+;;  '(cider-prompt-for-symbol nil)
+;;  '(cider-prompt-save-file-on-load nil)
+;;  '(cider-repl-display-in-current-window t)
+;;  '(cider-repl-pop-to-buffer-on-connect t)
+;;  '(cider-repl-use-clojure-font-lock t)
+;;  '(cider-show-error-buffer (quote except-in-repl)))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(default ((t (:foreground "#232333" :background "#c0c0c0"))))
+;;  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+;;  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
