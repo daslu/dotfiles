@@ -36,20 +36,22 @@ values."
      ess
      git
      smex
+     ;; w3m
+     mu4e
+     ;;exwm
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
-     )
+     jabber)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(
-                                      dsvn
-                                      )
+   dotspacemacs-additional-packages '(dsvn
+                                      pdf-tools)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -90,19 +92,22 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(anti-zenburn
-			 spacemacs-light
-			 spacemacs-dark
+                         solarized-light
+                         solarized-dark
+                         spacemacs-light
+                         spacemacs-dark
                          solarized-light
                          solarized-dark
                          leuven
                          monokai
-                         zenburn)
+                         zenburn
+                         )
    ;; if non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("source code pro"
-                               :size 13
+                               :size 20
                                :weight normal
                                :width normal
                                ;; :powerline-scale 1.1
@@ -234,13 +239,18 @@ layers configuration. you are free to put any user code."
       (generate-new-buffer-name "*shell*"))))
   (global-set-key (kbd "C-c s") 'new-shell)
 
+  (global-set-key (kbd "C-c T")
+                  (lambda ()
+                    (interactive)
+                    (insert "TODO")))
+
   ;;  http://stackoverflow.com/a/17984479
   (defun reverse-other-window ()
     (interactive)
     (other-window -1))
-  (global-set-key (kbd "M-j") 'other-window)
-  (global-set-key (kbd "M-k") 'reverse-other-window) 
-
+  ;; (global-set-key (kbd "M-j") 'other-window)
+  ;; (global-set-key (kbd "M-k") 'reverse-other-window)
+  (global-set-key (kbd "<C-tab>") 'other-window)
 
 ;;;;;;;; bidi
   (defun bidi ()
@@ -284,14 +294,18 @@ layers configuration. you are free to put any user code."
       (end-of-buffer)))
 
   (global-set-key (kbd "C-c t") 'cider-repl-prettify)
+  ;; (global-set-key (kbd "<f12>") 'iedit-mode)
   (global-set-key (kbd "C-c i") 'iedit-mode)
   (global-set-key (kbd "C-c b") 'browse-url)
+  (global-set-key (kbd "<f5>") 'browse-url)
 
-  (global-set-key (kbd "C-c 0") 'sp-forward-slurp-sexp)
+  ;; (global-set-key (kbd "C-c 0") 'sp-forward-slrp-sexp)
   ;; (global-set-key (kbd "C-0") 'sp-forward-slurp-sexp)
-  (global-set-key (kbd "C-c -") 'sp-splice-sexp)
+  ;; (global-set-key (kbd "C-c -") 'sp-splice-sexp)
   ;; (global-set-key (kbd "C--") 'sp-splice-sexp)
   (global-set-key (kbd "C-c =") 'imenu)
+
+  (global-set-key (kbd "C-q") 'bury-buffer)
 
   (defun cider-eval-up ()
     (interactive)
@@ -301,11 +315,19 @@ layers configuration. you are free to put any user code."
 
   (global-set-key (kbd "M-C-z") 'cider-eval-up)
 
+  (defun notifications-log ()
+    (interactive)
+    (progn (find-file "~/.cache/notify-osd.log")
+           (auto-revert-mode t)))
+  (global-set-key (kbd "C-c n") 'notifications-log)
+
+  ;; (global-set-key (kbd "SPC") 'avy-goto-char)
+
 ;;;;;;;; 
   (setq dired-recursive-copies (quote always))
   (setq dired-recursive-deletes (quote top))
   (setq dired-dwim-target t)
- 
+
   ;; ;; http://lists.gnu.org/archive/html/help-gnu-emacs/2002-10/msg00556.html
   (defun dired-copy-filename ()
     "push the path and filename of the file under the point to the kill ring"
@@ -334,18 +356,153 @@ layers configuration. you are free to put any user code."
   (setq wdired-allow-to-change-permissions t)
 ;;;;;;;;  
 
-(defun require-dsvn ()
-  (interactive)
-  (require 'dsvn))
+  (defun require-dsvn ()
+    (interactive)
+    (require 'dsvn))
 
 ;;;;;;;;
   (display-time)
 
   (setq-default git-enable-magit-svn-plugin t)
 
-  ;(global-set-key (kbd "C-`") 'other-window)
+                                        ;(global-set-key (kbd "C-`") 'other-window)
 
-)
+  ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  ;; ;; Replace "sbcl" with the path to your implementation
+  ;; (setq inferior-lisp-program "sbcl")
+  ;; (global-set-key (kbd "<f12>") 'slime-selector)
+
+
+
+  ;; https://www.bunkus.org/blog/2009/12/switching-identifier-naming-style-between-camel-case-and-c-style-in-emacs/
+  (defun mo-toggle-identifier-naming-style ()
+    "Toggles the symbol at point between lisp-style naming,
+    e.g. `hello-world-string', and camel case,
+    e.g. `HelloWorldString'."
+    (interactive)
+    (let* ((symbol-pos (bounds-of-thing-at-point 'symbol))
+           case-fold-search symbol-at-point cstyle regexp func)
+      (unless symbol-pos
+        (error "No symbol at point"))
+      (save-excursion
+        (narrow-to-region (car symbol-pos) (cdr symbol-pos))
+        (setq cstyle (string-match-p "-" (buffer-string))
+              regexp (if cstyle "\\(?:\\-<\\|-\\)\\(\\w\\)" "\\([A-Z]\\)")
+              func (if cstyle
+                       'capitalize
+                     (lambda (s)
+                       (concat (if (= (match-beginning 1)
+                                      (car symbol-pos))
+                                   ""
+                                 "-")
+                               (downcase s)))))
+        (goto-char (point-min))
+        (while (re-search-forward regexp nil t)
+          (replace-match (funcall func (match-string 1))
+                         t nil))
+        (widen))))
+  (define-key global-map (kbd "C-c -") 'mo-toggle-identifier-naming-style)
+
+
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "chromium")
+
+  ;; https://gist.github.com/areina/3879626
+  ;; https://vxlabs.com/2014/06/06/configuring-emacs-mu4e-with-nullmailer-offlineimap-and-multiple-identities/
+
+  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+  (require 'mu4e)
+
+  ;; default
+  (setq mu4e-maildir (expand-file-name "~/Maildir"))
+
+
+  ;; show full addresses in view message (instead of just names)
+  ;; toggle per name with M-RET
+  (setq mu4e-view-show-addresses t)
+
+
+  (setq mu4e-drafts-folder "/[Gmail].Drafts")
+  (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
+  (setq mu4e-trash-folder  "/[Gmail].Trash")
+
+  ;; don't save message to Sent Messages, GMail/IMAP will take care of this
+  (setq mu4e-sent-messages-behavior 'delete)
+
+  ;; setup some handy shortcuts
+  (setq mu4e-maildir-shortcuts
+        '(("/INBOX"             . ?i)
+          ("/[Gmail].Sent Mail" . ?s)
+          ("/[Gmail].Trash"     . ?t)))
+
+  ;; allow for updating mail using 'U' in the main view:
+  (setq mu4e-get-mail-command "offlineimap")
+
+  ;; something about ourselves
+  ;; I don't use a signature...
+  (setq
+   user-mail-address "daniel@madlan.co.il"
+   user-full-name  "Daniel Slutsky"
+   ;; message-signature
+   ;;  (concat
+   ;;    "Foo X. Bar\n"
+   ;;    "http://www.example.com\n")
+   )
+
+
+  ;; attachments go here
+  (setq mu4e-attachment-dir "~/Downloads")
+
+
+  ;; (setq message-send-mail-function ‘message-send-mail-with-sendmail)
+
+  (require 'smtpmail)
+
+  (setq message-send-mail-function 'smtpmail-send-it
+        starttls-use-gnutls t
+        smtpmail-starttls-credentials
+        '(("smtp.gmail.com" 587 nil nil))
+        smtpmail-auth-credentials
+        (expand-file-name "~/.authinfo.gpg")
+        smtpmail-default-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587
+        smtpmail-debug-info t)
+
+
+  ;; https://github.com/syl20bnr/spacemacs/issues/2222
+(use-package xclip
+      :defer t
+      :init
+      (defun copy-to-clipboard ()
+        "Copies selection to x-clipboard."
+        (interactive)
+        (if (display-graphic-p)
+            (progn
+              (message "Yanked region to x-clipboard!")
+              (call-interactively 'clipboard-kill-ring-save)
+              )
+          (if (region-active-p)
+              (progn
+                (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
+                (message "Yanked region to clipboard!")
+                (deactivate-mark))
+            (message "No region active; can't yank to clipboard!")))
+        )
+
+      (defun paste-from-clipboard ()
+        "Pastes from x-clipboard."
+        (interactive)
+        (if (display-graphic-p)
+            (progn
+              (clipboard-yank)
+              (message "graphics active")
+              )
+          (insert (shell-command-to-string "xsel -o -b"))
+          )
+        ))
+
+  )
 
 ;; ;; Do not write anything past this comment. This is where Emacs will
 ;; ;; auto-generate custom variable definitions.
@@ -370,3 +527,26 @@ layers configuration. you are free to put any user code."
 ;;  '(default ((t (:foreground "#232333" :background "#c0c0c0"))))
 ;;  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
 ;;  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(cider-prompt-for-project-on-connect nil)
+ '(cider-prompt-for-symbol nil)
+ '(cider-prompt-save-file-on-load nil)
+ '(cider-repl-display-in-current-window t)
+ '(cider-repl-pop-to-buffer-on-connect t)
+ '(jabber-account-list
+   (quote
+    (("daniel@madlan.co.il"
+      (:network-server . "talk.google.com")
+      (:port . 5223)
+      (:connection-type . ssl))))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
