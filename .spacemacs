@@ -300,6 +300,10 @@ layers configuration. you are free to put any user code."
       (indent-region (point-min) (point-max))
       (end-of-buffer)))
 
+  (add-hook 'cider-repl-mode-hook
+            (lambda ()
+              (local-set-key (kbd "<return>") 'cider-repl-return)))
+
   (global-set-key (kbd "C-c t") 'cider-repl-prettify)
   ;; (global-set-key (kbd "<f12>") 'iedit-mode)
   (global-set-key (kbd "C-c i") 'iedit-mode)
