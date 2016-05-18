@@ -92,8 +92,6 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(anti-zenburn
-                         solarized-light
-                         solarized-dark
                          spacemacs-light
                          spacemacs-dark
                          solarized-light
@@ -107,7 +105,7 @@ values."
    ;; default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("source code pro"
-                               :size 20
+                               :size 36
                                :weight normal
                                :width normal
                                ;; :powerline-scale 1.1
@@ -230,6 +228,15 @@ layers configuration. you are free to put any user code."
   (defun connect-9999 ()
     (interactive)
     (cider-connect "localhost" 9999))
+
+  (defun connect-19999 ()
+    (interactive)
+    (cider-connect "localhost" 19999))
+
+  (defun connect-11112 ()
+    (interactive)
+    (cider-connect "localhost" 11112))
+
   (setq cider-prompt-for-project-on-connect nil)
 
   (defun new-shell ()
@@ -405,7 +412,7 @@ layers configuration. you are free to put any user code."
 
 
   (setq browse-url-browser-function 'browse-url-generic
-        browse-url-generic-program "chromium")
+        browse-url-generic-program "firefox")
 
   ;; https://gist.github.com/areina/3879626
   ;; https://vxlabs.com/2014/06/06/configuring-emacs-mu4e-with-nullmailer-offlineimap-and-multiple-identities/
@@ -501,6 +508,9 @@ layers configuration. you are free to put any user code."
           (insert (shell-command-to-string "xsel -o -b"))
           )
         ))
+
+
+(spacemacs/set-leader-keys "SPC" 'avy-goto-char-timer)
 
   )
 
