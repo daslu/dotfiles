@@ -18,6 +18,10 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     python
+     csv
+     php
+     sql
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -27,6 +31,7 @@ values."
      better-defaults
      emacs-lisp
      clojure
+     fsharp
      git
      markdown
      org
@@ -91,21 +96,19 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(anti-zenburn
-                         spacemacs-light
-                         spacemacs-dark
-                         solarized-light
-                         solarized-dark
-                         leuven
-                         monokai
-                         zenburn
-                         )
+   dotspacemacs-themes '(spacemacs-light
+                          spacemacs-dark
+                          solarized-light
+                          solarized-dark
+                          leuven
+                          monokai
+                          zenburn)
    ;; if non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("source code pro"
-                               :size 36
+                               :size 24
                                :weight normal
                                :width normal
                                ;; :powerline-scale 1.1
@@ -303,6 +306,16 @@ layers configuration. you are free to put any user code."
   (add-hook 'cider-repl-mode-hook
             (lambda ()
               (local-set-key (kbd "<return>") 'cider-repl-return)))
+
+  (spacemacs/set-leader-keys
+    "<return>"
+    (lambda ()
+      (interactive)
+      (progn (evil-append-line 1)
+             (cider-pprint-eval-last-sexp)
+             (evil-normal-state))))
+
+  (global-set-key (kbd "C-c SPC") 'cider-repl-clear-buffer)
 
   (global-set-key (kbd "C-c t") 'cider-repl-prettify)
   ;; (global-set-key (kbd "<f12>") 'iedit-mode)
@@ -514,9 +527,49 @@ layers configuration. you are free to put any user code."
         ))
 
 
-(spacemacs/set-leader-keys "SPC" 'avy-goto-char-timer)
+(defun set-buffer-background (rgb)
+  "changes current buffer's background to a given color"
+  (progn
+    (require 'hexrgb)
+    (setq face-symbol (gensym "face-"))
+    (make-face face-symbol)
+    (buffer-face-set face-symbol)
+    ;;(set-face-background face-symbol (color-darken-name "black" (- (random 20))))
+    (setq new-color
+          (hexrgb-rgb-to-hex
+           (car rgb)
+           (car (cdr rgb))
+           (car (cdr (cdr rgb)))))
+    (set-face-background face-symbol new-color)
+    (message (concat "changed to " new-color))))
+(defun randomize-buffer-background ()
+  "changes current buffer's background to a random color (close to the defualt of this face)"
+  (interactive)
+  (progn
+    (setq rgb (mapcar
+               (function (lambda (x) (let
+                                         ((y (* 1 (+ x (/ (- (random 100) 50) 1000.0)))))
+                                       (if
+                                           (> y 1)
+                                           1 ;;(- 2 y)
+                                         (if
+                                             (< y 0)
+                                             0 ;;(- y)
+                                           y)))))
+               (color-name-to-rgb (face-background 'default))))
+    (set-buffer-background rgb)))
+;;(add-hook 'buffer-list-changed-hook 'randomize-buffer-background)
 
-  )
+
+(spacemacs/set-leader-keys "SPC" 'avy-goto-char-timer)
+(spacemacs/set-leader-keys "," 'hs-toggle-hiding)
+(spacemacs/set-leader-keys "." 'hs-hide-all)
+(spacemacs/set-leader-keys "`" 'randomize-buffer-background)
+
+
+
+)
+
 
 ;; ;; Do not write anything past this comment. This is where Emacs will
 ;; ;; auto-generate custom variable definitions.
