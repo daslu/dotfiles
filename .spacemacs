@@ -19,7 +19,7 @@ values."
    dotspacemacs-configuration-layers
    '(
      python
-     csv
+     ;; csv
      php
      sql
      ;; ----------------------------------------------------------------
@@ -97,6 +97,7 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(default
+                          anti-zenburn-theme
                           spacemacs-light
                           spacemacs-dark
                           solarized-light
@@ -222,7 +223,7 @@ layers configuration. you are free to put any user code."
   (spacemacs/toggle-hybrid-mode-on)
 
 
-  (set-fontset-font "fontset-default" '(#x5d0 . #x5ff) "miriam mono clm:bold")
+  ;; (set-fontset-font "fontset-default" '(#x5d0 . #x5ff) "miriam mono clm:bold")
 
 
   (defun connect-11111 ()
@@ -262,6 +263,7 @@ layers configuration. you are free to put any user code."
   ;; (global-set-key (kbd "M-j") 'other-window)
   ;; (global-set-key (kbd "M-k") 'reverse-other-window)
   (global-set-key (kbd "<C-tab>") 'other-window)
+  (global-set-key (kbd "<backtab>") 'reverse-other-window)
 
 ;;;;;;;; bidi
   (defun bidi ()
@@ -306,10 +308,11 @@ layers configuration. you are free to put any user code."
 
   (add-hook 'cider-repl-mode-hook
             (lambda ()
-              (local-set-key (kbd "<return>") 'cider-repl-return)))
+              (local-set-key (kbd "<return>") 'cider-repl-return)
+              (local-set-key (kbd "C-l")  'cider-repl-clear-buffer)))
 
   (spacemacs/set-leader-keys
-    "<return>"
+    "RET"
     (lambda ()
       (interactive)
       (progn (evil-append-line 1)
@@ -435,97 +438,97 @@ layers configuration. you are free to put any user code."
   ;; https://gist.github.com/areina/3879626
   ;; https://vxlabs.com/2014/06/06/configuring-emacs-mu4e-with-nullmailer-offlineimap-and-multiple-identities/
 
-  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-  (require 'mu4e)
+  ;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+  ;; (require 'mu4e)
 
-  ;; default
-  (setq mu4e-maildir (expand-file-name "~/Maildir"))
-
-
-  ;; show full addresses in view message (instead of just names)
-  ;; toggle per name with M-RET
-  (setq mu4e-view-show-addresses t)
+  ;; ;; default
+  ;; (setq mu4e-maildir (expand-file-name "~/Maildir"))
 
 
-  (setq mu4e-drafts-folder "/[Gmail].Drafts")
-  (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
-  (setq mu4e-trash-folder  "/[Gmail].Trash")
-
-  ;; don't save message to Sent Messages, GMail/IMAP will take care of this
-  (setq mu4e-sent-messages-behavior 'delete)
-
-  ;; setup some handy shortcuts
-  (setq mu4e-maildir-shortcuts
-        '(("/INBOX"             . ?i)
-          ("/[Gmail].Sent Mail" . ?s)
-          ("/[Gmail].Trash"     . ?t)))
-
-  ;; allow for updating mail using 'U' in the main view:
-  (setq mu4e-get-mail-command "offlineimap")
-
-  ;; something about ourselves
-  ;; I don't use a signature...
-  (setq
-   user-mail-address "daniel@madlan.co.il"
-   user-full-name  "Daniel Slutsky"
-   ;; message-signature
-   ;;  (concat
-   ;;    "Foo X. Bar\n"
-   ;;    "http://www.example.com\n")
-   )
+  ;; ;; show full addresses in view message (instead of just names)
+  ;; ;; toggle per name with M-RET
+  ;; (setq mu4e-view-show-addresses t)
 
 
-  ;; attachments go here
-  (setq mu4e-attachment-dir "~/Downloads")
+  ;; (setq mu4e-drafts-folder "/[Gmail].Drafts")
+  ;; (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
+  ;; (setq mu4e-trash-folder  "/[Gmail].Trash")
+
+  ;; ;; don't save message to Sent Messages, GMail/IMAP will take care of this
+  ;; (setq mu4e-sent-messages-behavior 'delete)
+
+  ;; ;; setup some handy shortcuts
+  ;; (setq mu4e-maildir-shortcuts
+  ;;       '(("/INBOX"             . ?i)
+  ;;         ("/[Gmail].Sent Mail" . ?s)
+  ;;         ("/[Gmail].Trash"     . ?t)))
+
+  ;; ;; allow for updating mail using 'U' in the main view:
+  ;; (setq mu4e-get-mail-command "offlineimap")
+
+  ;; ;; something about ourselves
+  ;; ;; I don't use a signature...
+  ;; (setq
+  ;;  user-mail-address "daniel@madlan.co.il"
+  ;;  user-full-name  "Daniel Slutsky"
+  ;;  ;; message-signature
+  ;;  ;;  (concat
+  ;;  ;;    "Foo X. Bar\n"
+  ;;  ;;    "http://www.example.com\n")
+  ;;  )
 
 
-  ;; (setq message-send-mail-function ‘message-send-mail-with-sendmail)
+  ;; ;; attachments go here
+  ;; (setq mu4e-attachment-dir "~/Downloads")
 
-  (require 'smtpmail)
 
-  (setq message-send-mail-function 'smtpmail-send-it
-        starttls-use-gnutls t
-        smtpmail-starttls-credentials
-        '(("smtp.gmail.com" 587 nil nil))
-        smtpmail-auth-credentials
-        (expand-file-name "~/.authinfo.gpg")
-        smtpmail-default-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587
-        smtpmail-debug-info t)
+  ;; ;; (setq message-send-mail-function ‘message-send-mail-with-sendmail)
+
+  ;; (require 'smtpmail)
+
+  ;; (setq message-send-mail-function 'smtpmail-send-it
+  ;;       starttls-use-gnutls t
+  ;;       smtpmail-starttls-credentials
+  ;;       '(("smtp.gmail.com" 587 nil nil))
+  ;;       smtpmail-auth-credentials
+  ;;       (expand-file-name "~/.authinfo.gpg")
+  ;;       smtpmail-default-smtp-server "smtp.gmail.com"
+  ;;       smtpmail-smtp-server "smtp.gmail.com"
+  ;;       smtpmail-smtp-service 587
+  ;;       smtpmail-debug-info t)
 
 
   ;; https://github.com/syl20bnr/spacemacs/issues/2222
-(use-package xclip
-      :defer t
-      :init
-      (defun copy-to-clipboard ()
-        "Copies selection to x-clipboard."
-        (interactive)
-        (if (display-graphic-p)
-            (progn
-              (message "Yanked region to x-clipboard!")
-              (call-interactively 'clipboard-kill-ring-save)
-              )
-          (if (region-active-p)
-              (progn
-                (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
-                (message "Yanked region to clipboard!")
-                (deactivate-mark))
-            (message "No region active; can't yank to clipboard!")))
-        )
+;; (use-package xclip
+;;       :defer t
+;;       :init
+;;       (defun copy-to-clipboard ()
+;;         "Copies selection to x-clipboard."
+;;         (interactive)
+;;         (if (display-graphic-p)
+;;             (progn
+;;               (message "Yanked region to x-clipboard!")
+;;               (call-interactively 'clipboard-kill-ring-save)
+;;               )
+;;           (if (region-active-p)
+;;               (progn
+;;                 (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
+;;                 (message "Yanked region to clipboard!")
+;;                 (deactivate-mark))
+;;             (message "No region active; can't yank to clipboard!")))
+;;         )
 
-      (defun paste-from-clipboard ()
-        "Pastes from x-clipboard."
-        (interactive)
-        (if (display-graphic-p)
-            (progn
-              (clipboard-yank)
-              (message "graphics active")
-              )
-          (insert (shell-command-to-string "xsel -o -b"))
-          )
-        ))
+;;       (defun paste-from-clipboard ()
+;;         "Pastes from x-clipboard."
+;;         (interactive)
+;;         (if (display-graphic-p)
+;;             (progn
+;;               (clipboard-yank)
+;;               (message "graphics active")
+;;               )
+;;           (insert (shell-command-to-string "xsel -o -b"))
+;;           )
+;;         ))
 
 
 (defun set-buffer-background (rgb)
@@ -610,7 +613,10 @@ layers configuration. you are free to put any user code."
     (("daniel@madlan.co.il"
       (:network-server . "talk.google.com")
       (:port . 5223)
-      (:connection-type . ssl))))))
+      (:connection-type . ssl)))))
+ '(package-selected-packages
+   (quote
+    (monroe smooth-scrolling page-break-lines org-repo-todo leuven-theme buffer-move bracketed-paste ws-butler wolfram-mode window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org thrift tagedit stan-mode sql-indent spacemacs-theme spaceline powerline smex smeargle slim-mode scss-mode scad-mode sass-mode restart-emacs rainbow-delimiters qml-mode pyvenv pytest pyenv-mode py-yapf popwin pip-requirements phpunit phpcbf php-extras php-auto-yasnippets persp-mode pdf-tools tablist pcre2el paradox orgit org-projectile org-present org org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree mwim mu4e-maildirs-extension mu4e-alert ht alert log4e gntp move-text mmm-mode matlab-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint less-css-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc jade-mode jabber fsm info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fsharp-mode flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree ess-smart-equals ess-R-object-popup ess-R-data-view ctable ess julia-mode emmet-mode elisp-slime-nav dsvn drupal-mode php-mode diminish define-word cython-mode csv-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-quickhelp pos-tip company-anaconda company column-enforce-mode coffee-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed arduino-mode anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup quelpa package-build))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
