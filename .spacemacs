@@ -568,6 +568,15 @@ layers configuration. you are free to put any user code."
 (spacemacs/set-leader-keys "`" 'randomize-buffer-background)
 
 
+(add-hook 'fsharp-mode
+          (lambda ()
+            (fsharp-load-buffer-file)))
+
+(setq tramp-default-method "ssh")
+(setq tramp-auto-save-directory "~/tmp/tramp/")
+;; http://emacs.stackexchange.com/a/17579
+(setq projectile-mode-line "Projectile")
+(setq tramp-verbose 7)
 
 )
 
@@ -602,15 +611,18 @@ layers configuration. you are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(cider-prompt-for-project-on-connect nil)
  '(cider-prompt-for-symbol nil)
- '(cider-prompt-save-file-on-load nil)
+ '(cider-prompt-save-file-on-load nil t)
  '(cider-repl-display-in-current-window t)
- '(cider-repl-pop-to-buffer-on-connect t)
+ '(cider-repl-pop-to-buffer-on-connect t t)
  '(jabber-account-list
    (quote
     (("daniel@madlan.co.il"
       (:network-server . "talk.google.com")
       (:port . 5223)
-      (:connection-type . ssl))))))
+      (:connection-type . ssl)))))
+ '(package-selected-packages
+   (quote
+    (uuidgen thrift powerline tablist spinner org-download mu4e-maildirs-extension mu4e-alert ht alert log4e gntp markdown-mode livid-mode skewer-mode simple-httpd live-py-mode link-hint json-snatcher json-reformat multiple-cursors js2-mode fsm hydra parent-mode projectile request haml-mode gitignore-mode flx eyebrowse evil-visual-mark-mode magit magit-popup git-commit with-editor smartparens iedit evil-ediff anzu evil goto-chg undo-tree ctable queue fsharp-mode flycheck company-anaconda anaconda-mode ws-butler wolfram-mode window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe use-package toc-org tagedit stan-mode sql-indent spacemacs-theme spaceline smooth-scrolling smex smeargle slim-mode scss-mode scad-mode sass-mode restart-emacs rainbow-delimiters quelpa qml-mode pyvenv pytest pyenv-mode py-yapf popwin pip-requirements phpunit phpcbf php-extras php-auto-yasnippets persp-mode pdf-tools pcre2el paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file neotree move-text mmm-mode matlab-mode markdown-toc magit-gitflow macrostep lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode jabber info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu ess-smart-equals ess-R-object-popup ess-R-data-view emmet-mode elisp-slime-nav dsvn drupal-mode define-word cython-mode company-web company-tern company-statistics company-quickhelp coffee-mode clj-refactor clean-aindent-mode cider-eval-sexp-fu buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile arduino-mode aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
