@@ -242,6 +242,10 @@ layers configuration. you are free to put any user code."
     (interactive)
     (cider-connect "localhost" 11112))
 
+  (defun connect-44444 ()
+    (interactive)
+    (cider-connect "localhost" 44444))
+
   (setq cider-prompt-for-project-on-connect nil)
 
   (defun new-shell ()
@@ -499,36 +503,36 @@ layers configuration. you are free to put any user code."
 
 
   ;; https://github.com/syl20bnr/spacemacs/issues/2222
-;; (use-package xclip
-;;       :defer t
-;;       :init
-;;       (defun copy-to-clipboard ()
-;;         "Copies selection to x-clipboard."
-;;         (interactive)
-;;         (if (display-graphic-p)
-;;             (progn
-;;               (message "Yanked region to x-clipboard!")
-;;               (call-interactively 'clipboard-kill-ring-save)
-;;               )
-;;           (if (region-active-p)
-;;               (progn
-;;                 (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
-;;                 (message "Yanked region to clipboard!")
-;;                 (deactivate-mark))
-;;             (message "No region active; can't yank to clipboard!")))
-;;         )
+(use-package xclip
+      :defer t
+      :init
+      (defun copy-to-clipboard ()
+        "Copies selection to x-clipboard."
+        (interactive)
+        (if (display-graphic-p)
+            (progn
+              (message "Yanked region to x-clipboard!")
+              (call-interactively 'clipboard-kill-ring-save)
+              )
+          (if (region-active-p)
+              (progn
+                (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
+                (message "Yanked region to clipboard!")
+                (deactivate-mark))
+            (message "No region active; can't yank to clipboard!")))
+        )
 
-;;       (defun paste-from-clipboard ()
-;;         "Pastes from x-clipboard."
-;;         (interactive)
-;;         (if (display-graphic-p)
-;;             (progn
-;;               (clipboard-yank)
-;;               (message "graphics active")
-;;               )
-;;           (insert (shell-command-to-string "xsel -o -b"))
-;;           )
-;;         ))
+      (defun paste-from-clipboard ()
+        "Pastes from x-clipboard."
+        (interactive)
+        (if (display-graphic-p)
+            (progn
+              (clipboard-yank)
+              (message "graphics active")
+              )
+          (insert (shell-command-to-string "xsel -o -b"))
+          )
+        ))
 
 
 (defun set-buffer-background (rgb)
