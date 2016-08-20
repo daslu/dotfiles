@@ -267,6 +267,7 @@ layers configuration. you are free to put any user code."
   ;; (global-set-key (kbd "M-j") 'other-window)
   ;; (global-set-key (kbd "M-k") 'reverse-other-window)
   (global-set-key (kbd "<C-tab>") 'other-window)
+  (global-set-key (kbd "C-@") 'other-window)
   (global-set-key (kbd "<backtab>") 'reverse-other-window)
 
 ;;;;;;;; bidi
