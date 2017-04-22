@@ -123,7 +123,7 @@ values."
    ;; default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("ubuntu mono"
-                               :size 12
+                               :size 16
                                :weight normal
                                :width normal
                                         ; :powerline-scale 1.1
@@ -218,6 +218,8 @@ values."
    ;; specified with an installed package.
    ;; not used for now. (default nil)
    dotspacemacs-default-package-repository nil
+   ;; FIX https://github.com/syl20bnr/spacemacs/issues/8091
+   dotspacemacs-helm-use-fuzzy 'source
    ))
 
 (defun dotspacemacs/user-init ()
@@ -379,7 +381,7 @@ layers configuration. you are free to put any user code."
 
   (defun query1 ()
     (interactive)
-    (insert "(query id [:<= :__id__ 1])")
+    (insert "(query id [:<= :col/__id__ 1])")
     (newline))
   (spacemacs/set-leader-keys "m q 1" 'query1)
   (defun query-summary ()
@@ -639,12 +641,11 @@ layers configuration. you are free to put any user code."
   (spacemacs/set-leader-keys "`" 'randomize-buffer-background)
   (spacemacs/set-leader-keys "d" 'mark-sexp)
   (spacemacs/set-leader-keys "o" 'other-window)
-
+  (spacemacs/set-leader-keys "'" 'helm-run-external-command)
 
   (add-hook 'fsharp-mode
             (lambda ()
               (fsharp-load-buffer-file)))
-  (spacemacs/set-leader-keys "T g" 'grey)
 
 
   (setq tramp-default-method "ssh")
@@ -653,12 +654,16 @@ layers configuration. you are free to put any user code."
   (setq projectile-mode-line "Projectile")
   (setq tramp-verbose 7)
 
-
   (defun grey ()
     (interactive)
     (progn
-      (set-background-color "#d9d9d9")))
-
+      (set-background-color "#eeeeee")))
+  (defun greyish ()
+    (interactive)
+    (progn
+      (set-background-color "#e6e9ee")))
+  (spacemacs/set-leader-keys "T g" 'grey)
+  (spacemacs/set-leader-keys "T h" 'greyish)
 
 
   (defun organize-cider-buffers ()
@@ -671,7 +676,6 @@ layers configuration. you are free to put any user code."
       (split-window)
       (switch-to-buffer "*nrepl-server world*")
       (grey)))
-
 
   (spacemacs/toggle-evil-cleverparens-on)
   (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
@@ -689,6 +693,7 @@ layers configuration. you are free to put any user code."
                    ((equal prefix '(16)) "%A, %d. %B %Y")))
           (system-time-locale "de_DE"))
       (insert (format-time-string format))))
+
 
   )
 
@@ -726,19 +731,26 @@ layers configuration. you are free to put any user code."
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#c0c0c0" "#336c6c" "#806080" "#0f2050" "#732f2c" "#23733c" "#6c1f1c" "#232333"])
- '(cider-prompt-for-project-on-connect nil)
+ '(cider-auto-jump-to-error (quote errors-only))
+ '(cider-cljs-lein-repl "(do (user/run)
+           (user/browser-repl))" t)
+ '(cider-prompt-for-project-on-connect nil t)
  '(cider-prompt-for-symbol nil)
- '(cider-prompt-save-file-on-load nil)
+ '(cider-prompt-save-file-on-load nil t)
  '(cider-repl-display-in-current-window t)
- '(cider-repl-pop-to-buffer-on-connect t)
+ '(cider-repl-pop-to-buffer-on-connect t t)
  '(compilation-message-face (quote default))
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#839496")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
+ '(custom-enabled-themes (quote (material-light)))
  '(custom-safe-themes
    (quote
-    ("5cd0afd0ca01648e1fff95a7a7f8abec925bd654915153fb39ee8e72a8b56a1f" default)))
+    ("5dc0ae2d193460de979a463b907b4b2c6d2c9c4657b2e9e66b8898d2592e3de5" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "5cd0afd0ca01648e1fff95a7a7f8abec925bd654915153fb39ee8e72a8b56a1f" default)))
+ '(evil-cleverparens-use-additional-bindings nil)
+ '(evil-cleverparens-use-additional-movement-keys nil)
+ '(evil-cleverparens-use-regular-insert t)
  '(evil-want-Y-yank-to-eol nil)
  '(fci-rule-color "#c7c7c7" t)
  '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
